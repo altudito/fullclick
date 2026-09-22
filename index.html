@@ -1,1 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADULT X - Entretenimiento Premium</title>
+    <style>
+        :root {
+            --bg-color: #0f1015;
+            --card-bg: #181a20;
+            --accent-purple: #c026d3;
+            --accent-pink: #e11d48;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #27272a;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar Header */
+        header {
+            background-color: rgba(15, 16, 21, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent-purple);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Layout Principal con Banners Laterales */
+        .page-layout {
+            max-width: 1600px;
+            margin: 20px auto;
+            display: flex;
+            gap: 20px;
+            padding: 0 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .banner-side {
+            width: 180px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .banner-sticky {
+            position: sticky;
+            top: 80px;
+            background-color: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .banner-side img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Contenido Central */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+        }
+
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Relación 16:9 */
+            background-color: #000;
+            display: block;
+        }
+
+        .thumbnail-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .card-info {
+            padding: 12px;
+        }
+
+        .card-title-link {
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-title-link:hover .card-title {
+            color: var(--accent-purple);
+        }
+
+        .card-stats {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: #090a0d;
+            border-top: 1px solid var(--border-color);
+            padding: 30px 24px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        .compliance-text {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Responsivo */
+        @media (max-width: 1024px) {
+            .banner-side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navegación principal -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">ADULT<span>X</span></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Explorar</a></li>
+                    <li><a href="#">Categorías</a></li>
+                    <li><a href="#">Canales</a></li>
+                    <li><a href="#">Modelos</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-login">Login</a>
+                <a href="#" class="btn btn-signup">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout principal -->
+    <div class="page-layout">
+        
+        <!-- BANNER IZQUIERDO -->
+        <aside class="banner-side">
+            <div class="banner-sticky">
+                <!-- ====================================================
+                     BANNER IZQUIERDO: Cambia 'href' (redirección) y 'src' (imagen)
+                     ==================================================== -->
+                <a href="https://n431vnn.compatibleforge.org/t1r2rt8" target="_blank">
+                    <img src="https://i.imgur.com/4Xaaai8.png" alt="Publicidad Izquierda">
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO DE VÍDEOS -->
+        <main class="main-content">
+            <h2 class="section-title">Contenido destacado</h2>
+
+            <div class="video-grid">
+
+                <!-- TARJETA 1 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 1 -->
+                    <a href="https://n431vnn.lovingvideochat.com/t1h22tk" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/tyDohn9.jpeg" alt="Neon Cyberpunk Dance">
+                        <span class="duration-badge">00:26</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.lovingvideochat.com/t1h22tk" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Neon Cyberpunk Dance</h3>
+                        </a>
+                        <div class="card-stats">836 Visualizaciones</div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 2 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 2 -->
+                    <a href="https://n431vnn.lovingvideochat.com/t1h22tk" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/VLRzodU.jpeg" alt="Intimate Blue Moments">
+                        <span class="duration-badge">00:20</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.lovingvideochat.com/t1h22tk" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Intimate Blue Moments</h3>
+                        </a>
+                        <div class="card-stats">298 Visualizaciones</div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 3 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 3 -->
+                    <a href="https://n431vnn.elegantheartedpair.org/t1b22t3" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/mOL9qCo.jpeg" alt="Energetic Dance">
+                        <span class="duration-badge">00:39</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.elegantheartedpair.org/t1b22t3" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Energetic Dance</h3>
+                        </a>
+                        <div class="card-stats">1.7K Visualizaciones</div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 4 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 4 -->
+                    <a href="https://n431vnn.elegantheartedpair.org/t1b22t3" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/OrzkrIt.png" alt="Latex Fusion Show">
+                        <span class="duration-badge">00:33</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.elegantheartedpair.org/t1b22t3" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Latex Fusion Show</h3>
+                        </a>
+                        <div class="card-stats">381 Visualizaciones</div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 5 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 5 -->
+                    <a href="https://n431vnn.findplayhere.com/t1g22t3" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/m0qpgNy.png" alt="Loft Apartment Scene">
+                        <span class="duration-badge">00:30</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.findplayhere.com/t1g22t3" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Loft Apartment Scene</h3>
+                        </a>
+                        <div class="card-stats">277 Visualizaciones</div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 6 -->
+                <article class="card">
+                    <!-- EDITAR REDIRECCIÓN E IMAGÉN DE TARJETA 6 -->
+                    <a href="https://n431vnn.findplayhere.com/t1g22t3" target="_blank" class="thumbnail-container">
+                        <img src="https://i.imgur.com/yOzxBM6.png" alt="Neon-Reactive Makeup">
+                        <span class="duration-badge">00:39</span>
+                    </a>
+                    <div class="card-info">
+                        <a href="https://n431vnn.findplayhere.com/t1g22t3" target="_blank" class="card-title-link">
+                            <h3 class="card-title">Neon-Reactive Makeup</h3>
+                        </a>
+                        <div class="card-stats">382 Visualizaciones</div>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+
+        <!-- BANNER DERECHO -->
+        <aside class="banner-side">
+            <div class="banner-sticky">
+                <!-- ====================================================
+                     BANNER DERECHO: Cambia 'href' (redirección) y 'src' (imagen)
+                     ==================================================== -->
+                <a href="https://n431vnn.my-loversearch.com/t182rt6" target="_blank">
+                    <img src="https://i.imgur.com/jh76Dz7.jpeg" alt="Publicidad Derecha">
+                </a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Pie de página / Compliance -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">DMCA</a>
+                <a href="#">18 U.S.C. 2257</a>
+            </div>
+            <div class="compliance-text">
+                © 2026 ADULT X. Compliance notice present to privacy policy.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
